@@ -1,4 +1,4 @@
-## Development mode
+## Development
 
 To run the Figwheel development server, run:
 
@@ -17,3 +17,7 @@ lein figwheel
 Figwheel will automatically push cljs changes to the browser.
 
 If you're only doing client-side development then it's sufficient to simply run the Figwheel compiler and then browse to http://localhost:3449 once it starts up.
+
+### Working files
+
+The files we want to work on are `src/cljs/kindling/core.cljs` and `src/clj/kindling/handler.clj`.
