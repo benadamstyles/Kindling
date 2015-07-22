@@ -3,19 +3,62 @@
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [goog.events :as events]
-              [goog.history.EventType :as EventType])
+              [goog.history.EventType :as EventType]
+              [clojure.string :as str])
     (:import goog.History))
 
 ;; -------------------------
-;; Views
+;; Utility functions
+(defn remove-whitespace [string]
+  (str/replace string #"\s+" ""))
 
+;; -------------------------
+;; Modules
+(defn email-input [email]
+  [:input {
+    :type "email"
+    :placeholder "your email address"
+    :value @email ; @ is sugar for deref, which gets the value of an atom
+    :on-change (fn [event]
+      (reset! email (-> event .-target .-value)))}])
+      ; `-> event` is like _.chain(event)
+      ; `.-` is a way to access JS properties
+
+(defn paste-box [pasted]
+  [:textarea {
+    :rows 5
+    :placeholder "paste your text here"
+    :value @pasted
+    :on-change (fn [event]
+      (reset! pasted (-> event .-target .-value)))}])
+      ; `-> event` is like _.chain(event)
+      ; `.-` is a way to access JS properties
+
+;; -------------------------
+;; Views
 (defn home-page []
-  [:div [:h2 "Welcome to kindling"]
-   [:div [:a {:href "#/about"} "go to about page"]]])
+  (let [
+    email (atom "test@example.com")
+    pasted (atom "Lorem ipsum")]
+
+    (fn []
+      [:div
+        [:h1 "Welcome to kindling"]
+        [:p (str "Your email address is " @email)]
+        [email-input email]
+        [paste-box pasted]
+        [:p (str
+          "Your pasted text is "
+          (.-length @pasted)
+          " characters long ("
+          (.-length (remove-whitespace @pasted))
+          " excluding whitespace)")]
+        [:div [:a {:href "#/about"} "go to about page"]]])))
 
 (defn about-page []
-  [:div [:h2 "About kindling"]
-   [:div [:a {:href "#/"} "go to the home page"]]])
+  [:div
+    [:h2 "About kindling"]
+    [:div [:a {:href "#/"} "go to the home page"]]])
 
 (defn current-page []
   [:div [(session/get :current-page)]])
