@@ -20,4 +20,5 @@ If you're only doing client-side development then it's sufficient to simply run 
 
 ### Working files
 
+
 The main file we want to work on is `src/cljs/kindling/core.cljs` (and maybe `src/clj/kindling/handler.clj`).
