@@ -40,7 +40,7 @@
   (let [
     email (atom "test@example.com")
     pasted (atom "Lorem ipsum")]
-
+       
     (fn []
       [:div
         [:h1 "Welcome to kindling"]
@@ -53,6 +53,7 @@
           " characters long ("
           (.-length (remove-whitespace @pasted))
           " excluding whitespace)")]
+        [:button {id: "submit-button"} (str "Send!")]
         [:div [:a {:href "#/about"} "go to about page"]]])))
 
 (defn about-page []

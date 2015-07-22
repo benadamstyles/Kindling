@@ -39,3 +39,9 @@ textarea {
   margin-top: 1em;
   margin-bottom: 1em;
 }
+
+button {
+    margin-left: auto;
+    display: block;
+    padding: 10px;
+}
