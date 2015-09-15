@@ -4,7 +4,10 @@
               [secretary.core :as secretary :include-macros true]
               [goog.events :as events]
               [goog.history.EventType :as EventType]
-              [clojure.string :as str])
+              [clojure.string :as str]
+              [kindling.components.email-input :as new-email-input :refer [email-input]]
+
+              )
     (:import goog.History))
 
 ;; -------------------------
@@ -13,17 +16,6 @@
   (str/replace string #"\s+" ""))
 
 ;; -------------------------
-;; Modules
-(defn email-input [email]
-  [:input {
-    :type "email"
-    :placeholder "your email address"
-    :value @email ; @ is sugar for deref, which gets the value of an atom
-    :on-change (fn [event]
-      (reset! email (-> event .-target .-value)))}])
-      ; `-> event` is like _.chain(event)
-      ; `.-` is a way to access JS properties
-
 (defn paste-box [pasted]
   [:textarea {
     :rows 5
@@ -40,7 +32,7 @@
   (let [
     email (atom "test@example.com")
     pasted (atom "Lorem ipsum")]
-       
+
     (fn []
       [:div
         [:h1 "Welcome to kindling"]
@@ -53,7 +45,7 @@
           " characters long ("
           (.-length (remove-whitespace @pasted))
           " excluding whitespace)")]
-        [:button {id: "submit-button"} (str "Send!")]
+        [:button {:id "submit-button"} (str "Send!")]
         [:div [:a {:href "#/about"} "go to about page"]]])))
 
 (defn about-page []
